@@ -13,6 +13,7 @@ import {
   Button,
   TextField,
   MenuItem,
+  Box,
 } from "@mui/material";
 import { Edit, Delete, Add } from "@mui/icons-material";
 import Swal from "sweetalert2";
@@ -102,18 +103,25 @@ const Users = () => {
   };
 
   return (
-    <Paper sx={{ p: 3 }}>
-      <Typography variant="h6" gutterBottom>
-        Gestión de Usuarios
-      </Typography>
-      <Button
-        variant="contained"
-        startIcon={<Add />}
-        sx={{ mb: 2 }}
-        onClick={() => handleOpen()}
+    <Paper sx={{ p: 5 }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          mb: 2,
+          mr:2
+        }}
       >
-        Agregar Usuario
-      </Button>
+        <Typography variant="h6">Gestión de Usuarios</Typography>
+        <Button
+          variant="contained"
+          startIcon={<Add />}
+          onClick={() => handleOpen()}
+        >
+          Nuevo Usuario
+        </Button>
+      </Box>
 
       <TableContainer>
         <Table>
@@ -122,6 +130,8 @@ const Users = () => {
               <TableCell>ID</TableCell>
               <TableCell>Nombre</TableCell>
               <TableCell>Email</TableCell>
+              <TableCell>Creación</TableCell>
+              <TableCell>Última Actualización</TableCell>
               <TableCell>Rol</TableCell>
               <TableCell>Acciones</TableCell>
             </TableRow>
@@ -132,6 +142,16 @@ const Users = () => {
                 <TableCell>{u.id}</TableCell>
                 <TableCell>{u.name}</TableCell>
                 <TableCell>{u.email}</TableCell>
+                <TableCell>
+                  {u.createdAt
+                    ? new Date(u.createdAt).toLocaleString("es-CO")
+                    : "Sin fecha"}
+                </TableCell>
+                <TableCell>
+                  {u.updatedAt
+                    ? new Date(u.updatedAt).toLocaleString("es-CO")
+                    : "Sin fecha"}
+                </TableCell>
                 <TableCell>{u.Role?.name}</TableCell>
                 <TableCell>
                   <IconButton color="primary" onClick={() => handleOpen(u)}>

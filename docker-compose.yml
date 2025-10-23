@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  frontend:
+    build: .
+    container_name: react_frontend_konecta
+    ports:
+      - "5173:80"
+    environment:
+      REACT_APP_API_URL: ${VITE_API_URL}
+    networks:
+      - konecta_network
+
+networks:
+  konecta_network:
+    external: true
+

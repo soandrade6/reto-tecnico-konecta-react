@@ -13,6 +13,7 @@ import {
   Button,
   TextField,
   MenuItem,
+  Box,
 } from "@mui/material";
 import { Edit, Delete, Add } from "@mui/icons-material";
 import Swal from "sweetalert2";
@@ -118,19 +119,29 @@ const Sales = () => {
         <Typography>Cargando ventas...</Typography>
       ) : (
         <>
-          <Typography sx={{ mb: 2 }}>
-            <strong>Total cupo solicitado:</strong> $
-            {totalAmount.toLocaleString("es-CO")}
-          </Typography>
-
-          <Button
-            variant="contained"
-            startIcon={<Add />}
-            sx={{ mb: 2 }}
-            onClick={() => handleOpen()}
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              mb: 2,
+              mr: 2,
+            }}
           >
-            Agregar Venta
-          </Button>
+            <Typography sx={{ mb: 2 }}>
+              <strong>Total cupo solicitado:</strong> $
+              {totalAmount.toLocaleString("es-CO")}
+            </Typography>
+
+            <Button
+              variant="contained"
+              startIcon={<Add />}
+              sx={{ mb: 2 }}
+              onClick={() => handleOpen()}
+            >
+              Radicar Venta
+            </Button>
+          </Box>
 
           <TableContainer>
             <Table>
@@ -138,11 +149,13 @@ const Sales = () => {
                 <TableRow>
                   <TableCell>ID</TableCell>
                   <TableCell>Producto</TableCell>
-                  <TableCell>Monto Solicitado</TableCell>
+                  <TableCell>Cupo Solicitado</TableCell>
                   <TableCell>Franquicia</TableCell>
                   <TableCell>Tasa</TableCell>
-                  <TableCell>Usuario</TableCell>
-                  <TableCell>Fecha</TableCell>
+                  <TableCell>Fecha de Creación</TableCell>
+                  <TableCell>Creado Por</TableCell>
+                  <TableCell>Última Actualización</TableCell> {/* Nuevo */}
+                  <TableCell>Actualizado Por</TableCell> {/* Nuevo */}
                   <TableCell>Acciones</TableCell>
                 </TableRow>
               </TableHead>
@@ -155,12 +168,20 @@ const Sales = () => {
                     <TableCell>{s.franchise || "-"}</TableCell>
                     <TableCell>{s.rate ? `${s.rate}%` : "-"}</TableCell>
                     <TableCell>
-                      {s.createdBy?.name || s.userCreatedId}
-                    </TableCell>
-                    <TableCell>
                       {s.createdAt
                         ? new Date(s.createdAt).toLocaleString("es-CO")
                         : "Sin fecha"}
+                    </TableCell>
+                    <TableCell>
+                      {s.createdBy?.name || s.userCreatedId}
+                    </TableCell>
+                    <TableCell>
+                      {s.updatedAt
+                        ? new Date(s.updatedAt).toLocaleString("es-CO")
+                        : "Sin fecha"}
+                    </TableCell>
+                    <TableCell>
+                      {s.updatedBy?.name || s.userUpdatedId}
                     </TableCell>
                     <TableCell>
                       <IconButton color="primary" onClick={() => handleOpen(s)}>

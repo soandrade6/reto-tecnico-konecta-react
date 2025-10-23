@@ -12,6 +12,7 @@ import {
   Button,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,6 +28,7 @@ const Dashboard = () => {
 
   const menuItems = [
     { text: "Ventas", path: "sales" },
+    { text: "Estadísticas", path: "stats" },
     ...(user?.role === 1 ? [{ text: "Usuarios", path: "users" }] : []),
   ];
 
@@ -37,15 +39,40 @@ const Dashboard = () => {
 
   return (
     <Box sx={{ display: "flex", height: "100vh", flexDirection: "column" }}>
-      <AppBar position="static" sx={{ bgcolor: "primary.main" }}>
-        <Toolbar>
-          <IconButton color="inherit" edge="start" onClick={toggleDrawer} sx={{ mr: 2 }}>
-            <MenuIcon />
+      <AppBar position="static" sx={{ bgcolor: "primary.main", minHeight: 80 }}>
+        <Toolbar sx={{ minHeight: 80, px: 3, py:3 }}>
+          <IconButton
+            color="inherit"
+            edge="start"
+            onClick={toggleDrawer}
+            sx={{ mr: 3, fontSize: 30 }}
+          >
+            <MenuIcon sx={{ fontSize: 32 }} />
           </IconButton>
-          <Typography variant="h5" sx={{ flexGrow: 1 }}>
+
+          <Typography variant="h4" sx={{ flexGrow: 1, fontWeight: "bold" }}>
             Panel de {user?.role === 1 ? "Administrador" : "Asesor"}
           </Typography>
-          <Button color="inherit" onClick={handleLogout}>
+
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<LogoutIcon />}
+            onClick={handleLogout}
+            sx={{
+              textTransform: "none",
+              fontWeight: "bold",
+              borderRadius: 3,
+              py: 1.5,
+              px: 3,
+              boxShadow: 3,
+              fontSize: "1rem",
+              "&:hover": {
+                backgroundColor: "primary",
+                boxShadow: 5,
+              },
+            }}
+          >
             Cerrar sesión
           </Button>
         </Toolbar>
@@ -55,7 +82,11 @@ const Dashboard = () => {
         <List sx={{ width: 240 }}>
           {menuItems.map((item) => (
             <ListItem key={item.text} disablePadding>
-              <ListItemButton component={Link} to={item.path} onClick={toggleDrawer}>
+              <ListItemButton
+                component={Link}
+                to={item.path}
+                onClick={toggleDrawer}
+              >
                 <ListItemText primary={item.text} />
               </ListItemButton>
             </ListItem>

@@ -21,10 +21,11 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     try {
-      const captchaToken = await window.grecaptcha.execute(
-        import.meta.env.VITE_RECAPTCHA_SITE_KEY,
-        { action: "login" }
-      );
+      const captchaToken = window.grecaptcha.getResponse();
+      if (!captchaToken) {
+        Swal.fire("Error", "Por favor completa el captcha", "error");
+        return;
+      }
 
       const result = await dispatch(
         loginUser({
@@ -37,10 +38,14 @@ const Login = () => {
       if (loginUser.fulfilled.match(result)) {
         window.location.href = "/dashboard";
       } else {
-        Swal.fire("Error", result.payload || "Credenciales incorrectas", "error");
+        Swal.fire(
+          "Error",
+          result.payload || "Credenciales incorrectas",
+          "error"
+        );
       }
     } catch (error) {
-        console.log(error)
+      console.log(error);
       Swal.fire("Error", "Fallo en el login", "error");
     }
   };
@@ -91,6 +96,9 @@ const Login = () => {
             margin="normal"
             required
           />
+          <Box sx={{ display: "flex", justifyContent: "center", mt: 2, mb: 2 }}>
+            <Captcha />
+          </Box>
           <Button
             type="submit"
             variant="contained"
@@ -103,7 +111,6 @@ const Login = () => {
           </Button>
         </form>
       </Paper>
-      <Captcha />
     </Container>
   );
 };
