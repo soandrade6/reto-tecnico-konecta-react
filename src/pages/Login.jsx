@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useRef } from "react";
 import {
   Button,
   Container,
@@ -15,6 +16,7 @@ import { loginUser } from "../store/authSlice";
 import Captcha from "../components/Captcha";
 
 const Login = () => {
+  const captchaRef = useRef();
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.auth);
@@ -43,10 +45,12 @@ const Login = () => {
           result.payload || "Credenciales incorrectas",
           "error"
         );
+        captchaRef.current?.reset(); 
       }
     } catch (error) {
       console.log(error);
       Swal.fire("Error", "Fallo en el login", "error");
+      captchaRef.current?.reset(); 
     }
   };
 
@@ -97,7 +101,7 @@ const Login = () => {
             required
           />
           <Box sx={{ display: "flex", justifyContent: "center", mt: 2, mb: 2 }}>
-            <Captcha />
+            <Captcha ref={captchaRef} />
           </Box>
           <Button
             type="submit"
