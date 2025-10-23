@@ -262,12 +262,15 @@ const Sales = () => {
             fullWidth
             margin="normal"
             type="number"
+            inputProps={{ step: "0.01", min: 0, max: 100 }}
             value={formData.rate}
             onChange={(e) => {
               const value = e.target.value;
               if (
                 value === "" ||
-                (Number(value) >= 0 && Number(value) <= 100)
+                (/^\d*\.?\d*$/.test(value) &&
+                  Number(value) >= 0 &&
+                  Number(value) <= 100)
               ) {
                 setFormData({ ...formData, rate: value });
               }
