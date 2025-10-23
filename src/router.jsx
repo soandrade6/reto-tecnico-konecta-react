@@ -3,7 +3,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
 import Sales from "./pages/Sales";
-import SalesStats  from "./components/SalesStats";
+import SalesStats  from "./pages/SalesStats";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const Router = () => (
